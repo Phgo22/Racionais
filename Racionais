@@ -1,0 +1,128 @@
+#include <stdio.h>
+
+typedef struct {
+    int numerador;
+    int denominador;
+} racional;
+
+/* le racional 1 */
+racional le_racional (racional a)
+{
+    scanf("%d %d", &a.numerador, &a.denominador);
+    return a;
+}
+
+// ===================================================
+
+int valido(racional a)
+{
+    if(a.denominador != 0){
+        return 1;
+    } else
+    {
+        return 0;
+    }
+}
+
+// ===================================================
+
+void imprime (racional s)
+{
+    if(s.numerador == 0){
+
+        printf("0\n");
+
+    } else if(s.denominador == 1){
+
+        printf("%d\n", s.numerador);
+
+    } else {
+
+        printf("%d/%d\n", s.numerador, s.denominador);
+
+    }
+}
+
+// ===================================================
+
+int mdc(int numerador, int denominador){                                        
+    if (denominador == 0){                                                      
+        return numerador;                                                       
+    }                                                                           
+    else{                                                                       
+        return mdc(denominador, numerador % denominador);                       
+    }                                                                           
+}
+
+// ===================================================
+
+racional simplifica(racional a)
+{
+    racional so;
+    so.numerador = a.numerador / mdc(a.numerador, a.denominador);
+    so.denominador = a.denominador / mdc(a.numerador, a.denominador);
+    return so;
+}
+
+// ===================================================
+
+racional soma (racional s, racional s1)
+{   
+    racional so;
+    so.numerador= (s.numerador*s1.denominador)+(s1.numerador*s.denominador);
+    so.denominador= s.denominador* s1.denominador;
+    return simplifica(so);
+}
+// ===================================================
+
+racional subtracao (racional s, racional s1)
+{
+    racional so;
+    so.numerador= (s.numerador*s1.denominador)-(s1.numerador*s.denominador);
+    so.denominador= s.denominador* s1.denominador;
+    return simplifica(so);
+}
+
+// ===================================================
+
+racional multiplicacao (racional s, racional s1)
+{
+    racional so;
+    so.numerador = s.numerador * s1.numerador;
+    so.denominador = s.denominador * s1.denominador;
+    return simplifica(so);
+}
+
+// ===================================================
+
+racional divisao (racional s, racional s1)
+{
+    racional so;
+    so.numerador = s.numerador * s1.denominador;
+    so.denominador = s.denominador * s1.numerador;
+    return simplifica(so);
+}
+
+// ===================================================
+
+int main()
+{
+
+    racional a, b;
+    a = le_racional (a);
+    b = le_racional (b);
+
+    while (valido(a)!=0 && valido(b)!=0)
+    {
+
+        imprime(soma(a, b));
+        imprime(subtracao(a, b));
+        imprime(multiplicacao(a, b));
+        imprime(divisao(a, b));
+
+        a = le_racional (a);
+        b = le_racional (b);
+    }
+
+    return 0;
+}
